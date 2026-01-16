@@ -102,22 +102,36 @@
 .pair-meta {
   position: absolute;
   bottom: 116px;
-  z-index: 30;
+  z-index: 999;
   color: #fff;
   text-align: center;
   box-sizing: border-box;
 }
-
 .pair-meta.left {
   left: 0;
   width: 100%;
   bottom: 53%;
+}
+.pair-meta-left{
+  position: absolute;
+  left: 0;
+  width: 36%;
+  text-align: center;
+  bottom: 116px;  
 }
 
 .pair-meta.right {
   left: 0;
   right: 0;
   width: 100%;
+  bottom: 116px;
+}
+
+.pair-meta-right {
+  position: absolute;
+  right: 0;
+  width: 35%;
+  text-align: center;
   bottom: 116px;
 }
 
