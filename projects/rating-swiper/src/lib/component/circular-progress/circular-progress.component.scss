@@ -1,0 +1,32 @@
+.progress {
+  cursor: pointer;
+  position: relative;
+  height: 51px;
+  width: fit-content;
+}
+
+.progress-circle {
+  transform: rotate(-90deg);
+}
+
+.progress-circle-back {
+  fill: none;
+  stroke: var(--cyrano-pink-shade-1);
+  stroke-width: 4px;
+}
+
+.progress-circle-prog {
+  fill: none;
+  stroke: var(--ion-text-color);
+  stroke-width: 4px;
+  stroke-dashoffset: 0px;
+  transition: stroke-dasharray 0.7s linear 0s;
+}
+
+.progress-text {
+  width: 100%;
+  position: absolute;
+  top: 16px;
+  text-align: center;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

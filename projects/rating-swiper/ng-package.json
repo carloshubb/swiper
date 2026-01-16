@@ -1,0 +1,6 @@
+{
+  "dest": "../../dist/rating-swiper",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  }
+}

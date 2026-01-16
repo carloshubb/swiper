@@ -1,0 +1,17 @@
+export enum PreferencesField {
+  Age = 'age',
+  Height = 'height',
+  Weight = 'weight',
+  Face = 'face',
+  Ethnicity = 'ethnicity',
+  Bust = 'bust',
+  Hip = 'hip',
+  Waist = 'waist',
+  BigSpender = 'bigSpender',
+  Presentable = 'presentable',
+  MusclePercentage = 'musclePercentage',
+  FatPercentage = 'fatPercentage',
+  Dominance = 'dominance',
+  Power = 'power',
+  Confidence = 'confidence',
+}

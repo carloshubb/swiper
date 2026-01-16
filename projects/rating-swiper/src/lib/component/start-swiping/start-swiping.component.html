@@ -1,0 +1,33 @@
+<div class="screen">
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+  </div>
+  <button class="back-btn" (click)="onBackButtonClick()"><img src="assets/back.png" alt="back" /></button>
+
+  <!-- Main Content -->
+  <div class="content">
+    <div class="swipe-icon-content">
+      <div class="swipe-icon">
+        <img src="/assets/swipe.svg" alt="swipe hand" />
+      </div>
+      <div class="swipe-icon">
+        <img src="/assets/vertical-swipe.svg" alt="swipe hand" />
+      </div>
+    </div>
+
+    <h2 class="title">Date Preferences:<br />swipe fake profiles</h2>
+    <p class="description">
+      You have to swipe at least 20 profiles so we can make sure that you get the date that is right
+      for you. <br />
+      To get our <span class="highlight">Selection Guarantee</span>, you must swipe on all 5000
+      profiles
+    </p>
+
+    <a class="start-btn" (click)="onStartSwipingClick()">Start Swiping</a>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

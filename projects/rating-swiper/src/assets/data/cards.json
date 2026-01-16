@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "imageUrls": [
+            "/assets/profileImage1-1.jpg",
+            "/assets/profileImage1-2.jpg",
+            "/assets/profileImage1-3.jpg",
+            "/assets/profileImage1-4.jpg",
+            "/assets/profileImage1.jpg"
+        ],
+        "name": "Angelina",
+        "age": 21,
+        "tags": [
+            "Vivvaya",
+            "Skincare",
+            "Baking",
+            "Hiking"
+        ]
+    },
+    {
+        "id": 2,
+        "imageUrls": [
+            "/assets/profileImage2-1.jpg",
+            "/assets/profileImage2-2.jpg",
+            "/assets/profileImage2-3.jpg",
+            "/assets/profileImage2-4.jpg",
+            "/assets/profileImage2.jpg"
+        ],
+        "name": "Sofia",
+        "age": 24,
+        "tags": [
+            "Photography",
+            "Travel",
+            "Yoga",
+            "Coffee"
+        ]
+    },
+    {
+        "id": 3,
+        "imageUrls": [
+            "/assets/profileImage3-1.jpg",
+            "/assets/profileImage3-2.jpg",
+            "/assets/profileImage3-3.jpg",
+            "/assets/profileImage3-4.jpg",
+            "/assets/profileImage3.jpg"
+        ],
+        "name": "Emma",
+        "age": 22,
+        "tags": [
+            "Music",
+            "Dancing",
+            "Art",
+            "Reading"
+        ]
+    },
+    {
+        "id": 4,
+        "imageUrls": [
+            "/assets/profileImage4-1.jpg",
+            "/assets/profileImage4-2.jpg",
+            "/assets/profileImage4-3.jpg",
+            "/assets/profileImage4-4.jpg",
+            "/assets/profileImage4.jpg"
+        ],
+        "name": "Isabella",
+        "age": 26,
+        "tags": [
+            "Fitness",
+            "Cooking",
+            "Movies",
+            "Gaming"
+        ]
+    },
+    {
+        "id": 5,
+        "imageUrls": [
+            "/assets/profileImage5-1.jpg",
+            "/assets/profileImage5-2.jpg",
+            "/assets/profileImage5-3.jpg",
+            "/assets/profileImage5-4.jpg",
+            "/assets/profileImage5.jpg"
+        ],
+        "name": "Mia",
+        "age": 23,
+        "tags": [
+            "Nature",
+            "Writing",
+            "Tennis",
+            "Fashion"
+        ]
+    }
+]

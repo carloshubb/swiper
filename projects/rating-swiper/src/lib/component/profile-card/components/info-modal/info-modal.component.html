@@ -1,0 +1,16 @@
+<div class="modal-overlay" *ngIf="showModal" (click)="onCloseModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-icon">
+      <img src="assets/info.png" alt="info" />
+    </div>
+
+    <h3 class="modal-title">Why am I swiping?</h3>
+
+    <p class="modal-description">
+      These women are all fake and have been generated for you to show us what properties about a
+      prospective match makes you swipe right.
+    </p>
+
+    <div class="continue-btn" (click)="onContinue()">Continue</div>
+  </div>
+</div>

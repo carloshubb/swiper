@@ -1,0 +1,54 @@
+.skip-section {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  background: linear-gradient(0deg, #27242c, #27242c),
+    linear-gradient(
+      180deg,
+      rgba(156, 156, 156, 0.2) 3.76%,
+      rgba(138, 138, 138, 0.13375) 4.93%,
+      rgba(100, 100, 100, 0) 14.33%
+    );
+}
+
+.skip-btn {
+  font-family: Calistoga;
+  width: 157px;
+  background: radial-gradient(
+        115.36% 126.16% at 8.39% 32.81%,
+        rgba(67, 64, 70, 0.5) 0%,
+        rgba(41, 37, 45, 0.5) 28.24%,
+        rgba(10, 10, 11, 0.5) 100%
+      ),
+    linear-gradient(180deg, rgba(62, 64, 69, 0.5) 0%, rgba(62, 64, 69, 0) 8.33%);
+  color: white;
+  border: none;
+  padding: 7px 40px;
+  border-radius: 25px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: 1.62px solid;
+  text-decoration: none;
+  text-shadow: 0px 0px 4.89592px #ffffff, 0px 0px 24.4796px #fe3c72, 0px 0px 24.4796px #fe3c72;
+  border-image-source: linear-gradient(
+    145.84deg,
+    rgba(10, 9, 9, 0.45) 13.57%,
+    rgba(0, 0, 0, 0.488195) 13.57%,
+    #ffffff 111.02%
+  );
+}
+
+.skip-btn:hover {
+  transform: translateY(-2px);
+}
+
+.skip-btn:active {
+  transform: translateY(0);
+}
+
+.skip-btn span {
+  font-size: 12px;
+  color: #aaa;
+}

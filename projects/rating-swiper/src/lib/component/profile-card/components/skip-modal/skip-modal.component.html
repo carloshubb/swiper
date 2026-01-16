@@ -1,0 +1,30 @@
+<div class="modal-overlay" *ngIf="showSkipModal" (click)="onCloseSkipModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-icon">
+      <img src="assets/info.png" alt="info" />
+    </div>
+
+    <h3 class="modal-title">Skip swipes</h3>
+
+    <p class="modal-description">
+      Getting a perfect date for the first time is important to us. We recommend swiping all 100
+      profiles to get more insight of your preferences. Skipping this part might result in a date
+      that is not as good as it could be.
+    </p>
+
+    <div class="checkbox-container">
+      <label class="checkbox-label" (click)="onCheckboxChange()">
+        <input type="checkbox" class="checkbox-input" [checked]="agreeToSkip" />
+        <span class="checkbox-custom" [class.checked]="agreeToSkip"></span>
+        <span class="checkbox-text">I understand</span>
+      </label>
+    </div>
+
+    <div class="modal-buttons">
+      <button class="cancel-btn" (click)="onCloseSkipModal()">Cancel</button>
+      <button class="skip-anyway-btn" [disabled]="!agreeToSkip" (click)="onSkipAnyway()">
+        Skip anyway
+      </button>
+    </div>
+  </div>
+</div>

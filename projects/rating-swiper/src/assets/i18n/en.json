@@ -1,0 +1,36 @@
+{
+    "START_SWIPING": {
+        "TITLE": "Date Preferences",
+        "SUBTITLE": "swipe fake profiles",
+        "DESCRIPTION": "You have to swipe at least 20 profiles so we can make sure that you get the date that is right for you.",
+        "SELECTION_GUARANTEE": "Selection Guarantee",
+        "SELECTION_INFO": "To get our Selection Guarantee, you must swipe on all 5000 profiles",
+        "START_BUTTON": "Start Swiping",
+        "BACK_ALT": "back"
+    },
+    "PROFILE_CARD": {
+        "LIKE": "Like",
+        "DISLIKE": "Dislike",
+        "SKIP": "Skip",
+        "BACK": "Back",
+        "INFO": "Info",
+        "YEARS_OLD": "years old",
+        "SCORE": "Score"
+    },
+    "INFO_MODAL": {
+        "TITLE": "Profile Information",
+        "CLOSE": "Close"
+    },
+    "SKIP_MODAL": {
+        "TITLE": "Skip Profile",
+        "MESSAGE": "Are you sure you want to skip this profile?",
+        "CONFIRM": "Yes, Skip",
+        "CANCEL": "Cancel"
+    },
+    "COMMON": {
+        "LOADING": "Loading...",
+        "ERROR": "An error occurred",
+        "SUCCESS": "Success",
+        "RETRY": "Retry"
+    }
+}

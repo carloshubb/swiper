@@ -1,0 +1,441 @@
+$md: 370px;
+$sm: 320px;
+$xs: 280px;
+
+ion-content.client-settings-swipes {
+  --offset-bottom: 0px !important;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main-wrapper {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 0;
+
+  &.main-wrapper-settings {
+    height: calc(100% - (var(--footer-height) + 5px));
+  }
+}
+
+.fade-in-element {
+  /* Hide all elements by default until the main container loads */
+  opacity: 0;
+  visibility: hidden;
+}
+
+.implicit-swipes-wrapper {
+  height: 100vh;
+  overflow: clip;
+  // overflow: clip;
+}
+
+.is-loaded {
+
+  /* When the profile is loaded, these elements become ready to animate */
+  .fade-in-element {
+    visibility: visible;
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  .fade-up-stagger {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+}
+
+.fade-up-stagger {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.text-shadow-btn {
+  text-shadow: 0 0 16px var(--cyrano-pink-shade-1);
+}
+
+lib-swipe-card {
+  height: 100vh;
+  // display: block;
+}
+
+.button-container {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+.lower-part {
+  width: 100%;
+  z-index: 111111;
+  color: white;
+  position: absolute;
+  bottom: 0;
+
+  .bottom-blur {
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow: visible;
+    background: linear-gradient(360deg, #27242cfe 0.2%, rgba(39, 36, 44, 0.99) 8.29%, rgba(39, 36, 44, 0.9) 26.15%, rgba(39, 36, 44, 0.85) 31%, rgba(39, 36, 44, 0.8) 38%, rgba(39, 36, 44, 0) 101.03%);
+    ;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .lower-part-inner {
+    position: absolute;
+    left: 5%;
+    bottom: 100%;
+    z-index: 100000;
+    width: 90%;
+    max-width: 372px;
+    margin: auto;
+
+    .title {
+      margin-bottom: 10px;
+    }
+
+    .interests {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+
+      .tag {
+        --lib-chip-background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        background-blend-mode: overlay;
+        background-repeat: no-repeat;
+        --lib-chip-background-before: var(--lib-chip-background);
+        --lib-chip-background-after: var(--lib-chip-background);
+        --lib-chip-color: #fff;
+        border-top: var(--lib-chip-border, 2px solid #ffffff69);
+        padding: 4px 16px;
+
+        &::before {
+          left: 0px;
+          width: 50%;
+        }
+
+        &:after {
+          width: 50%;
+        }
+      }
+    }
+  }
+
+  .react-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 24px;
+    align-items: center;
+    max-width: 500px;
+    margin: auto;
+    z-index: 99;
+    position: relative;
+
+
+    lib-icon-btn {
+      --lib-icon-button-height: 45px;
+      --lib-icon-button-width: 45px;
+      background: transparent !important;
+
+
+
+      &.like-button,
+      &.dislike-button,
+      &.back-button {
+        img {
+          width: 86px;
+          aspect-ratio: 1/1;
+          object-fit: contain;
+        }
+      }
+
+
+      &.super-like-button {
+        img {
+          width: 24px;
+          aspect-ratio: 1/1;
+          object-fit: contain;
+        }
+      }
+
+      &.like-button,
+      &.super-like-button,
+      &.dislike-button,
+      &.back-button {
+        --swipe-button-background: transparent;
+        --border: none;
+        --lib-button-border: none;
+        --lib-button-container-background: transparent;
+
+        ion-icon {
+          font-size: 82px;
+        }
+      }
+
+      &.dislike-button,
+      &.back-button {
+        --lib-button-box-shadow: none;
+        --lib-button-container-background: transparent;
+      }
+
+      &.super-like-button,
+      &.back-button {
+        ion-icon {
+          font-size: 78px;
+        }
+      }
+    }
+
+    .skip-button {
+      width: 100%;
+      margin-inline: 0px;
+    }
+
+    .background-blur {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      width: 100%;
+      height: 96px;
+      background: linear-gradient(360deg, #27242cfe 0.2%, rgba(39, 36, 44, 0.99) 8.29%, rgba(39, 36, 44, 0.9) 26.15%, rgba(39, 36, 44, 0.85) 31%, rgba(39, 36, 44, 0.8) 38%, rgba(39, 36, 44, 0) 101.03%);
+      ;
+      pointer-events: none;
+    }
+  }
+
+  @media screen and (max-width: 320px) {
+    .lower-part-inner {
+      .interests {
+        ion-button {
+          height: 30px;
+          font-size: 10px;
+          margin: 3px;
+          --padding-top: 5px;
+          --padding-end: 10px;
+          --padding-bottom: 5px;
+          --padding-start: 10px;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-height: 745px) {
+    .lower-part-inner {
+      .interests {
+        ion-button {
+          height: 30px;
+          font-size: 12px;
+          --padding-end: 10px;
+          --padding-start: 10px;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-height: 670px) {
+    .lower-part-inner {
+      .interests {
+        ion-button {
+          height: 30px;
+          font-size: 12px;
+          --padding-end: 10px;
+          --padding-start: 10px;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-height: 610px) {
+    .lower-part-inner {
+      .interests {
+        ion-button {
+          height: 30px;
+          font-size: 12px;
+          --padding-end: 10px;
+          --padding-start: 10px;
+        }
+      }
+    }
+  }
+}
+
+.upper-part {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  max-width: 500px;
+
+  .top-blur {
+    background: var(--upper-part-gradient-blur);
+    top: -2px;
+    left: -50vw;
+    width: 150vw;
+    height: 60px;
+    position: absolute;
+    z-index: 100000;
+    pointer-events: none;
+  }
+
+  .swiper-header-title {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 100005;
+    color: white;
+    font-family: 'Gilroy-Bold', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    padding: 0 20px;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+  }
+
+  .pic-switch-bar {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    display: flex;
+    z-index: 100001;
+    width: 60%;
+    cursor: pointer;
+
+    div {
+      box-shadow:
+        inset 0px 0px 0px 1px rgba(203, 199, 209, 0.5),
+        inset -4px -21px 4px rgba(184, 184, 184, 0);
+      background: #c4c4c4;
+      margin: 0 5px;
+      width: 40px;
+      height: 7.24px;
+      border-radius: 17px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s ease;
+
+      &.active {
+        width: 70%;
+        background-blend-mode: luminosity;
+        background: var(--active-profile-pic-selector-background);
+      }
+    }
+  }
+}
+
+.pic-switch-bar,
+.lower-part {
+  opacity: 1;
+  transition: all 0.25s ease;
+  pointer-events: all;
+}
+
+.hide-profile-details {
+  pointer-events: none;
+
+  .pic-switch-bar,
+  .lower-part {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+app-swipe-card {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  touch-action: pan-x;
+  cursor: grab;
+}
+
+.loader {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.interests {
+  &__premium-chip {
+    border-radius: 15px;
+    overflow: hidden;
+    min-width: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 2px;
+
+    &__interest {
+      margin: 2px 5px;
+      padding: 0 2px;
+      width: 100%;
+      color: white;
+      height: 19px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Gilroy-Medium', sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+}
+
+.registration-footer {
+  width: 100%;
+}
+
+/* Button Styling */
+.back-button,
+.dislike-button,
+.like-button,
+.super-like-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  img {
+    width: 86px;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+  }
+}
+
+.super-like-button img {
+  width: 24px !important;
+}

@@ -1,0 +1,101 @@
+<div class="implicit-swipes-wrapper" *ngIf="icons">
+  <ng-container *ngIf="!profileDetails?.length || lastIndexReached">
+    <div class="loader">
+      <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    </div>
+  </ng-container>
+  <ng-container>
+    @if (profileDetails) {
+    <div class="main-wrapper" [class.is-loaded]="isProfileLoaded | async"
+      [ngClass]="{ 'main-wrapper-settings': clientSettings, 'hide-profile-details': animateProfileDetails }">
+      <div class="upper-part">
+        <div class="top-blur"></div>
+
+        <div class="swiper-header-title" *ngIf="swiperTitle">
+          {{ swiperTitle }}
+        </div>
+
+        <div class="pic-switch-bar">
+          <div *ngFor="let prof of selectedProfile?.images; let i = index"
+            [ngClass]="{ active: (selectedProfileActiveImageIndex$ | async) === i }" (click)="switchProfilePic(i)">
+          </div>
+        </div>
+
+        <lib-swipe-card [icons]="icons" [profile]="profileDetails[firstCardSwipableIndex - initiateReverseSwipeIndex]"
+          [swipingDecision]="
+              userInfo.swipingDecisions && 
+              userInfo.swipingDecisions[firstCardSwipableIndex - initiateReverseSwipeIndex] && 
+              userInfo.swipingDecisions[firstCardSwipableIndex - initiateReverseSwipeIndex].decision ? 
+                userInfo.swipingDecisions[firstCardSwipableIndex - initiateReverseSwipeIndex].decision : 
+                undefined" [activeImageIndex$]="selectedProfileActiveImageIndex$"
+          [swipeOnClickSubject]="swipeOnClickSubject" (swiped)="onSwiped($event, true)"
+          (reversed)="onReversed($event, true)" (dragStarted)="onDragStarted()" (dragEnded)="onDragEnded()"
+          [style.z-index]="totalNumberOfFakeProfiles - (firstCardSwipableIndex - initiateReverseSwipeIndex)">
+        </lib-swipe-card>
+        <lib-swipe-card [icons]="icons" [profile]="profileDetails[secondCardSwipableIndex - initiateReverseSwipeIndex]"
+          [swipingDecision]="
+              userInfo.swipingDecisions && 
+              userInfo.swipingDecisions[secondCardSwipableIndex - initiateReverseSwipeIndex] && 
+              userInfo.swipingDecisions[secondCardSwipableIndex - initiateReverseSwipeIndex].decision ? 
+                userInfo.swipingDecisions[secondCardSwipableIndex - initiateReverseSwipeIndex].decision : 
+                undefined" [activeImageIndex$]="selectedProfileActiveImageIndex$" (swiped)="onSwiped($event, false)"
+          (reversed)="onReversed($event, false)" (dragStarted)="onDragStarted()" (dragEnded)="onDragEnded()"
+          [swipeOnClickSubject]="swipeOnClickSubject"
+          [style.z-index]="totalNumberOfFakeProfiles - (secondCardSwipableIndex - initiateReverseSwipeIndex)">
+        </lib-swipe-card>
+
+
+      </div>
+      <div class="lower-part">
+        <div class="bottom-blur"></div>
+        <div class="react-buttons">
+          <div class="lower-part-inner">
+            @if(selectedProfile && selectedProfile.interestNames.length){
+            <div class="title f-calistoga f-w-400 f-2xl h-160 f-white fade-in-element">
+              <span class="name">{{ selectedProfile.firstName }}</span>, <span>{{ selectedProfile.age }}</span>
+            </div>
+            <div class="interests fade-in-element">
+              <div class="interests__premium-chip fade-up-stagger" [ngStyle]="{ 'animation-delay': '0ms' }">
+                <div class="interests__premium-chip__interest">{{ selectedProfile.interestNames[0] }}</div>
+              </div>
+              <div class="interests__premium-chip fade-up-stagger" [ngStyle]="{ 'animation-delay': '200ms' }">
+                <div class="interests__premium-chip__interest">{{ selectedProfile.interestNames[1] }}</div>
+              </div>
+              <div class=" interests__premium-chip fade-up-stagger" [ngStyle]="{ 'animation-delay': '400ms' }">
+                <div class="interests__premium-chip__interest">{{ selectedProfile.interestNames[2] }}</div>
+              </div>
+              <div class="interests__premium-chip fade-up-stagger" [ngStyle]="{ 'animation-delay': '600ms' }">
+                <div class="interests__premium-chip__interest">{{ selectedProfile.interestNames[3] }}</div>
+              </div>
+              <div class="interests__premium-chip fade-up-stagger" [ngStyle]="{ 'animation-delay': '800ms' }">
+                <div class="interests__premium-chip__interest">{{ selectedProfile.interestNames[4] }}</div>
+              </div>
+            </div>
+            }
+          </div>
+
+          <button (click)="onBack()" class="back-button fade-in-element" [disabled]="swipableIndex < 1">
+            <img [src]="icons!.chevronBack" />
+          </button>
+
+          <button (click)="onDislike()" class="dislike-button fade-in-element"
+            [ngClass]="{ selected: userInfo && userInfo.swipingDecisions && userInfo.swipingDecisions[swipableIndex] && userInfo.swipingDecisions[swipableIndex].decision === 0 }">
+            <img [src]="icons!.close" />
+          </button>
+
+          <button (click)="onLike()" class="like-button fade-in-element"
+            [ngClass]="{ selected: userInfo && userInfo.swipingDecisions && userInfo.swipingDecisions[swipableIndex] && userInfo.swipingDecisions[swipableIndex].decision === 1 }">
+            <img [src]="icons!.love" />
+          </button>
+
+          <button (click)="onSuperLike()" class="super-like-button fade-in-element"
+            [ngClass]="{ selected: userInfo && userInfo.swipingDecisions && userInfo.swipingDecisions[swipableIndex] && userInfo.swipingDecisions[swipableIndex].decision === 2 }"
+            [disabled]="superLikeCount < 1">
+            <img [src]="icons!.star" />
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </ng-container>
+</div>

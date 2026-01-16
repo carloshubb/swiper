@@ -1,0 +1,69 @@
+<div class="test-screen screen">
+  <div class="top-blur"></div>
+  <h2 class="top-heading">{{ currentTitle }}</h2>
+  <app-progress-bar [currentIndex]="activeIndex" [totalCards]="pairs.length">
+  </app-progress-bar>
+  <div class="screen-center-divider"></div>
+  <div class="pane">
+    <div class="pair-row">
+      <div class="col">
+        <div class="swiper" #swiperLEl>
+          <div class="swiper-wrapper">
+            <ng-template ngFor let-pair [ngForOf]="pairs" let-i="index">
+              <div class="swiper-slide">
+                <div class="card-image-container">
+                  <div class="swiper sub-swiper">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide" *ngFor="let img of pair.left.imageUrls">
+                        <img class="slide-image" [src]="img" [alt]="img" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="image-gradient-overlay"></div>
+                </div>
+                <img class="slide-overlay-heart" [class.is-hidden]="!isHearted(i, pair.left.id)"
+                  src="/assets/overlay-heart.svg" alt="heart-overlay" />
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div dir="rtl" class="swiper" #swiperREl>
+          <div class="swiper-wrapper">
+            <ng-template ngFor let-pair [ngForOf]="pairs" let-i="index">
+              <div class="swiper-slide">
+                <div class="card-image-container">
+                  <div class="swiper sub-swiper">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide" *ngFor="let img of pair.right.imageUrls">
+                        <img class="slide-image" [src]="img" [alt]="img" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="image-gradient-overlay"></div>
+                </div>
+                <img class="slide-overlay-heart" [class.is-hidden]="!isHearted(i, pair.right.id)"
+                  src="/assets/overlay-heart.svg" alt="heart-overlay" />
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="activePair as ap">
+      <div class="active-pair-info">
+        <div class="pair-meta left">
+          <app-profile-info [card]="ap.left"></app-profile-info>
+        </div>
+        <div class="pair-meta right">
+          <app-profile-info [card]="ap.right"></app-profile-info>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <app-action-buttons (back)="goToPrev()" (onLikeRight)="onHeart('right')" (onLikeLeft)="onHeart('left')"
+    (next)="goToNext()" class="footer-overlay">
+  </app-action-buttons>
+
+</div>

@@ -1,0 +1,471 @@
+<div class="settings-container">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2 style="margin:0;">Settings</h2>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <!-- Backend Config -->
+            <div
+                style="display:flex; align-items:center; gap:8px; background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                <span style="font-size: 12px; color: #888;">API:</span>
+                <input type="text" [(ngModel)]="apiUrl" placeholder="Backend URL"
+                    style="background:transparent; border:none; color:#2196F3; font-size:13px; width:180px; font-family:monospace; outline:none;">
+                <button (click)="saveApiUrl()"
+                    style="background: #2196F3; color: white; border: none; border-radius: 4px; padding: 2px 8px; cursor: pointer; font-size: 11px; font-weight: bold;">
+                    UPDATE
+                </button>
+            </div>
+
+            <!-- Sync Status Badge -->
+            <div *ngIf="syncPending > 0"
+                style="background: rgba(255, 152, 0, 0.1); padding: 8px 16px; border-radius: 20px; font-size: 14px; border: 1px solid rgba(255, 152, 0, 0.3); color: #ff9800; display:flex; align-items:center; gap:8px;">
+                <span
+                    style="display:block; width:8px; height:8px; background:#ff9800; border-radius:50%; box-shadow:0 0 8px rgba(255,152,0,0.6);"></span>
+                <span>{{ syncPending }} pending sync</span>
+            </div>
+
+            <!-- Syncing Indicator -->
+            <div *ngIf="isSyncing"
+                style="background: rgba(33, 150, 243, 0.1); padding: 8px 16px; border-radius: 20px; font-size: 14px; border: 1px solid rgba(33, 150, 243, 0.3); color: #2196F3; display:flex; align-items:center; gap:8px;">
+                <span>🔄 Syncing...</span>
+            </div>
+
+            <!-- Active Model Badge -->
+            <div *ngIf="currentModelVersion"
+                style="background: rgba(0, 230, 118, 0.1); padding: 8px 16px; border-radius: 20px; font-size: 14px; border: 1px solid rgba(0, 230, 118, 0.3); color: #00e676; display:flex; align-items:center; gap:8px;">
+                <span
+                    style="display:block; width:8px; height:8px; background:#00e676; border-radius:50%; box-shadow:0 0 8px rgba(0,230,118,0.6);"></span>
+                <span>Active Model: <strong>{{ currentModelVersion }}</strong></span>
+            </div>
+
+            <!-- Manual Sync Button -->
+            <button (click)="manualSync()" [disabled]="isSyncing || syncPending === 0"
+                style="padding: 8px 16px; background: #2196F3; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold;">
+                🔄 Sync Now
+            </button>
+        </div>
+    </div>
+
+    <div class="setting-group">
+        <div class="create-ckpt-box"
+            style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-top: 20px;">
+            <h4 style="margin-top:0; margin-bottom:10px;">Create New Data Snapshot</h4>
+            <div class="input-row input-group"
+                style="display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;">
+                <div style="flex: 1; display: flex; flex-direction: column;">
+                    <input type="text" [(ngModel)]="checkpointName" placeholder="Snapshot Name (e.g. v2-test)"
+                        style="width: 100%; padding: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: white; box-sizing: border-box;">
+                    <div *ngIf="currentInputCheckpoint"
+                        style="font-size: 0.8em; color: #888; margin-top: 4px; padding-left: 2px;">
+                        Snapshot Name: {{ currentInputCheckpoint.name }}
+                    </div>
+                </div>
+                <div style="flex: 2;">
+                    <input type="text" [(ngModel)]="swiperTitle" placeholder="Swiper Title (e.g. Which is better?)"
+                        style="width: 100%; padding: 12px; border-radius: 4px; border: 1px solid #444; background: #222; color: white; box-sizing: border-box;">
+                </div>
+            </div>
+            <button class="create-ckpt-btn" (click)="createDatasetCheckpoint()" [disabled]="loading || !checkpointName"
+                style="width: 100%; padding: 12px; background: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                + Create New Snapshot
+            </button>
+            <p style="font-size:0.8em; color:#888; margin-top:8px;">
+                This will save current interactions as a new CSV snapshot.
+            </p>
+        </div>
+
+        <div class="info-box">
+            <p>Selected snapshot will be applied when you start a new session in <strong>Profile Card</strong>.
+            </p>
+        </div>
+    </div>
+
+    <!-- Available Checkpoints Section (Moved Below) -->
+    <div class="setting-group">
+        <h3>Available Snapshots</h3>
+        <p class="subtitle">Select a snapshot package and version.</p>
+
+        <div *ngIf="loading" class="loading">Loading checkpoints...</div>
+        <div *ngIf="error" class="error">{{ error }}</div>
+
+        <div *ngIf="!loading && versionedCheckpoints.length === 0" class="empty-state"
+            style="padding: 40px; text-align: center; border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; color: #666; margin-bottom: 20px;">
+            <div style="font-size: 2em; margin-bottom: 10px;">📦</div>
+            <div style="font-weight: bold; color: #aaa;">No Checkpoints Found</div>
+            <p style="font-size: 0.9em;">Create a snapshot below to start versioning your data.</p>
+        </div>
+
+        <div class="checkpoint-list" *ngIf="!loading && versionedCheckpoints.length > 0">
+            <div *ngFor="let ckpt of versionedCheckpoints" class="checkpoint-item"
+                [class.active]="ckpt.name === selectedCheckpointName" (click)="onCheckpointSelect(ckpt.name)">
+
+                <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                    <div>
+                        <span class="ckpt-name">{{ ckpt.title || ckpt.name }}</span>
+                        <div style="font-size:0.8em; color:#888; margin-top:4px;">
+                            Snapshot Name: {{ ckpt.name }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Version Selector (Visible if active) -->
+                <div *ngIf="ckpt.name === selectedCheckpointName"
+                    style="margin-top:10px; border-top:1px solid #444; padding-top:10px;">
+                    <label style="font-size:0.8em; color:#aaa; margin-bottom:5px; display:block;">Select
+                        Version:</label>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button *ngFor="let v of availableVersions" (click)="$event.stopPropagation(); selectVersion(v)"
+                            [style.background]="v === selectedVersion ? '#4CAF50' : '#333'"
+                            [style.color]="v === selectedVersion ? 'white' : '#ccc'"
+                            style="border:none; padding:4px 10px; border-radius:15px; cursor:pointer; font-size:0.9em;">
+                            {{ v }}
+                        </button>
+                    </div>
+
+                    <div style="margin-top:10px;">
+                        <div style="display:flex; gap:5px;">
+                            <input #titleInput type="text" [value]="ckpt.title" placeholder="Rename Snapshot UI Title"
+                                (click)="$event.stopPropagation()"
+                                style="background:#222; border:1px solid #444; color:white; padding:5px; font-size:0.8em; flex:1;">
+                            <button (click)="$event.stopPropagation(); updateTitle(ckpt, titleInput.value)"
+                                style="background:#2196F3; border:none; color:white; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:0.8em;">
+                                Update Snapshot Title
+                            </button>
+                        </div>
+
+                        <div
+                            style="display:flex; justify-content:space-between; align-items: flex-start; margin-top:15px; border-top:1px solid #444; padding-top:10px; gap:15px;">
+                            <!-- Training Action -->
+                            <div style="flex:1;">
+                                <button
+                                    (click)="$event.stopPropagation(); trainSpecificVersion(ckpt.name, selectedVersion)"
+                                    [disabled]="isTraining || !selectedVersion"
+                                    [style.opacity]="(isTraining || !selectedVersion) ? 0.6 : 1"
+                                    style="background:#FF9800; border:none; color:white; padding:12px 15px; border-radius:8px; cursor:pointer; font-size:1.1em; width:100%; font-weight:bold; box-shadow: 0 4px 0 #e68a00;">
+                                    {{ isTraining ? 'Running Training Pipeline...' : 'Train Model on ' + selectedVersion
+                                    }}
+                                </button>
+                                <p style="font-size:0.75em; color:#888; margin-top:8px;">
+                                    This will train a new model using data from version <strong>{{ selectedVersion
+                                        }}</strong>.
+                                </p>
+                            </div>
+
+                            <!-- Mini Selection Preview -->
+                            <div *ngIf="leaderboard[0]" class="selection-preview"
+                                style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); width:100px; text-align:center;">
+                                <h5 style="margin:0 0 8px 0; font-size:0.7em; color:#aaa; text-transform:uppercase;">Top
+                                    Rated</h5>
+                                <div
+                                    style="width:60px; height:60px; border-radius:50%; overflow:hidden; margin:0 auto 5px; border:2px solid #ffd700;">
+                                    <img [src]="leaderboard[0].image"
+                                        style="width:100%; height:100%; object-fit:cover;" />
+                                </div>
+                                <div style="font-size:0.8em; font-weight:bold; color:#ffd700;">{{ leaderboard[0].likes
+                                    }}👍 / {{ leaderboard[0].dislikes }}👎</div>
+                                <div style="font-size:0.7em; color:#00e676; margin-top:2px;">Score: {{
+                                    leaderboard[0].score }}</div>
+                                <div
+                                    style="font-size:0.6em; color:#888; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                    {{ leaderboard[0].name }}</div>
+                            </div>
+                        </div>
+                        <div *ngIf="isTraining" style="margin-top:10px;">
+                            <div
+                                style="width:100%; height:6px; background:#333; border-radius:3px; overflow:hidden; margin-bottom:5px;">
+                                <div [style.width.%]="trainingProgress"
+                                    style="height:100%; background:#FF9800; transition:width 0.3s;"></div>
+                            </div>
+                            <div style="font-size:0.8em; color:#ccc; text-align:center;">
+                                {{ trainingStatus }} ({{ trainingProgress }}%)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Frontend Leaderboard (Method B - Live/Instant) -->
+    <div class="setting-group"
+        style="border: 2px solid rgba(33, 150, 243, 0.3); border-radius: 8px; padding: 16px; background: rgba(33, 150, 243, 0.05);">
+        <div class="leaderboard-header" style="margin-bottom: 24px;">
+            <h3 style="display:flex; align-items:center; gap:10px; margin:0;">
+                ⚡ Live Frontend Leaderboard (IndexedDB)
+                <span class="badge"
+                    style="background:rgba(33,150,243,0.1); color:#2196F3; border:1px solid rgba(33,150,243,0.3); font-size:10px; padding:3px 10px; border-radius:12px;">
+                    METHOD B - INSTANT
+                </span>
+                <span *ngIf="totalInteractions > 0" class="badge"
+                    style="background:rgba(0,230,118,0.1); color:#00e676; border:1px solid rgba(0,230,118,0.3); font-size:10px; padding:3px 10px; border-radius:12px;">
+                    {{ totalInteractions }} LOCAL
+                </span>
+            </h3>
+            <p class="subtitle" style="margin:5px 0 0 0; font-size:13px; color:#888;">
+                Real-time Bradley-Terry calculation from local IndexedDB. Updates instantly without backend calls.
+            </p>
+        </div>
+
+        <div class="leaderboard-grid" *ngIf="frontendLeaderboard.length > 0">
+            <div *ngFor="let item of frontendLeaderboard; let i = index" class="leaderboard-item">
+                <span class="rank">#{{ i + 1 }}</span>
+                <div class="profile-thumb" *ngIf="item.image">
+                    <img [src]="item.image" alt="Profile" />
+                </div>
+                <span class="image-id">{{ item.name }}</span>
+                <div class="votes-container"
+                    style="display:flex; flex-direction:column; align-items:flex-end; gap:2px;">
+                    <div style="font-size: 0.85em; font-weight:bold;">
+                        <span style="color:#00e676;">BT: {{ item.score?.toFixed(1) }}</span>
+                    </div>
+                    <div style="font-size: 0.7em; color:#666;">
+                        {{ item.likes }}👍 / {{ item.dislikes }}👎
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="frontendLeaderboard.length === 0"
+            style="text-align: center; padding: 40px; color: #666; border: 1px dashed #444; border-radius: 8px;">
+            <p>No local data yet. Start swiping to see live rankings!</p>
+            <p style="font-size: 0.8em; margin-top: 8px;">Data is stored locally in your browser's IndexedDB</p>
+        </div>
+    </div>
+
+    <!-- Backend Leaderboard (Method A - Authoritative) -->
+    <div class="setting-group"
+        style="border: 2px solid rgba(255, 152, 0, 0.3); border-radius: 8px; padding: 16px; background: rgba(255, 152, 0, 0.05);">
+        <div class="leaderboard-header" style="margin-bottom: 24px;">
+            <h3 style="display:flex; align-items:center; gap:10px; margin:0;">
+                🏆 Backend Leaderboard (Authoritative)
+                <span class="badge"
+                    style="background:rgba(255,152,0,0.1); color:#ff9800; border:1px solid rgba(255,152,0,0.3); font-size:10px; padding:3px 10px; border-radius:12px;">
+                    METHOD A - SYNCED
+                </span>
+            </h3>
+            <p class="subtitle" style="margin:5px 0 0 0; font-size:13px; color:#888;">
+                Authoritative Bradley-Terry calculation from MongoDB. Updates after sync.
+            </p>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div class="setting-group">
+            <div class="leaderboard-header" style="margin-bottom: 24px;">
+                <h3 style="display:flex; align-items:center; gap:10px; margin:0;">
+                    🏆 Most Attractive by Consensus
+                    <span class="badge" *ngIf="selectedVersion"
+                        style="background:rgba(255,215,0,0.1); color:#ffd700; border:1px solid rgba(255,215,0,0.3); font-size:10px; padding:3px 10px; border-radius:12px;">
+                        {{ selectedVersion }}
+                    </span>
+                </h3>
+                <p class="subtitle" style="margin:5px 0 0 0; font-size:13px; color:#888;">Live rankings based on
+                    aggregate
+                    user interactions.</p>
+            </div>
+            <p class="subtitle">Top profiles based on user votes for <strong>{{ selectedCheckpointName ||
+                    'Selection' }}</strong>.</p>
+
+            <div class="leaderboard-grid" *ngIf="leaderboard.length > 0">
+                <div *ngFor="let item of leaderboard; let i = index" class="leaderboard-item">
+                    <span class="rank">#{{ i + 1 }}</span>
+                    <div class="profile-thumb" *ngIf="item.image">
+                        <img [src]="item.image" alt="Profile" />
+                    </div>
+                    <span class="image-id">{{ item.name }}</span>
+                    <div class="votes-container"
+                        style="display:flex; flex-direction:column; align-items:flex-end; gap:2px;">
+                        <div style="font-size: 0.85em; font-weight:bold;">
+                            <span style="color: #00e676;">{{ item.likes || 0 }} 👍</span>
+                            <span style="color: #ff5252; margin-left:8px;">{{ item.dislikes || 0 }} 👎</span>
+                        </div>
+                        <div style="font-size: 0.75em; color: #888;">Net Score: {{ item.score || 0 }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="leaderboard.length === 0" class="empty-state"
+                style="padding:40px; text-align:center; color:#666; font-style:italic;">
+                No consensus data available for version {{ selectedVersion }} yet. Start swiping to generate data!
+            </div>
+        </div>
+
+        <!-- Comparison Section -->
+        <div class="setting-group comparison-block">
+            <div class="compare-header">
+                <h3>Version Comparison</h3>
+                <p class="subtitle" *ngIf="lastActiveVersion">
+                    Comparing <strong>Former ({{lastActiveVersion}})</strong> vs <strong>Live
+                        ({{currentModelVersion}})</strong>
+                </p>
+                <p class="subtitle" *ngIf="!lastActiveVersion">
+                    Comparing <strong>Selection</strong> vs <strong>Live</strong> vs <strong>Baseline</strong>
+                </p>
+            </div>
+
+            <div class="compare-grid"
+                style="display:grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items:start; gap:10px; margin-top:20px;">
+                <!-- Column 1: Selection / Former -->
+                <div class="compare-col">
+                    <h4 *ngIf="lastActiveVersion">Formerly Active</h4>
+                    <h4 *ngIf="!lastActiveVersion">Your Selection</h4>
+
+                    <!-- Show Former if available -->
+                    <ng-container *ngIf="lastActiveVersion">
+                        <div class="winner-card" *ngIf="lastActiveLeaderboard[0]">
+                            <div class="winner-img">
+                                <img [src]="lastActiveLeaderboard[0].image" alt="Winner" />
+                            </div>
+                            <div class="profile-name">{{ lastActiveLeaderboard[0].name }}</div>
+                            <div class="stats-box">
+                                <div class="vote-counts">
+                                    <span style="color: #00e676;">{{ lastActiveLeaderboard[0].likes }}👍</span>
+                                    <span style="color: #ff5252;">{{ lastActiveLeaderboard[0].dislikes }}👎</span>
+                                </div>
+                                <div class="net-score">Score: {{ lastActiveLeaderboard[0].score }}</div>
+                            </div>
+                            <span class="badge" style="background:#444; color:#aaa;">BEFORE SWITCH</span>
+                        </div>
+                        <div *ngIf="!lastActiveLeaderboard[0]" class="empty-mini">No Former Data</div>
+                    </ng-container>
+
+                    <!-- Show Selection if no Former -->
+                    <ng-container *ngIf="!lastActiveVersion">
+                        <div class="winner-card" *ngIf="leaderboard[0]">
+                            <div class="winner-img">
+                                <img [src]="leaderboard[0].image" alt="Winner" />
+                            </div>
+                            <div class="profile-name">{{ leaderboard[0].name }}</div>
+                            <div class="stats-box">
+                                <div class="vote-counts">
+                                    <span style="color: #00e676;">{{ leaderboard[0].likes }}👍</span>
+                                    <span style="color: #ff5252;">{{ leaderboard[0].dislikes }}👎</span>
+                                </div>
+                                <div class="net-score">Score: {{ leaderboard[0].score }}</div>
+                            </div>
+                            <span class="badge" style="background:rgba(255,255,255,0.1); color:#fff;">SELECTED</span>
+                        </div>
+                        <div *ngIf="!leaderboard[0]" class="empty-mini">No Selection Data</div>
+                    </ng-container>
+                </div>
+
+                <!-- VS -->
+                <div class="vs-container">
+                    <div class="vs-text">VS</div>
+                    <div class="line"></div>
+                </div>
+
+                <!-- Column 2: Currently Active (LIVE) -->
+                <div class="compare-col active-col">
+                    <h4 style="color:#00e676;">Currently Active</h4>
+                    <div class="winner-card" *ngIf="activeModelLeaderboard[0]">
+                        <div class="winner-img" style="border-color:#00e676;">
+                            <img [src]="activeModelLeaderboard[0].image" alt="Winner" />
+                        </div>
+                        <div class="profile-name">{{ activeModelLeaderboard[0].name }}</div>
+                        <div class="stats-box">
+                            <div class="vote-counts">
+                                <span style="color: #00e676;">{{ activeModelLeaderboard[0].likes }}👍</span>
+                                <span style="color: #ff5252;">{{ activeModelLeaderboard[0].dislikes }}👎</span>
+                            </div>
+                            <div class="net-score">Score: {{ activeModelLeaderboard[0].score }}</div>
+                        </div>
+                        <span class="badge" *ngIf="currentModelVersion"
+                            style="background:rgba(0,230,118,0.2); color:#00e676; border:1px solid #00e676;">
+                            {{ currentModelVersion }}
+                        </span>
+                    </div>
+                    <div *ngIf="!activeModelLeaderboard[0]" class="empty-mini">No Data</div>
+                </div>
+
+                <!-- VS -->
+                <div class="vs-container">
+                    <div class="vs-text">VS</div>
+                    <div class="line"></div>
+                </div>
+
+                <!-- Column 3: Base Version -->
+                <div class="compare-col" style="opacity:0.8;">
+                    <h4>Baseline (v1.0.0)</h4>
+                    <div class="winner-card" *ngIf="previousLeaderboard[0]">
+                        <div class="winner-img">
+                            <img [src]="previousLeaderboard[0].image" alt="Winner" />
+                        </div>
+                        <div class="profile-name">{{ previousLeaderboard[0].name }}</div>
+                        <div class="stats-box">
+                            <div class="vote-counts">
+                                <span style="color: #00e676;">{{ previousLeaderboard[0].likes }}👍</span>
+                                <span style="color: #ff5252;">{{ previousLeaderboard[0].dislikes }}👎</span>
+                            </div>
+                            <div class="net-score">Score: {{ previousLeaderboard[0].score }}</div>
+                        </div>
+                        <span class="badge" style="background:#555; color:#ccc;">BASE</span>
+                    </div>
+                    <div *ngIf="!previousLeaderboard[0]" class="empty-mini">No Data</div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Trained Models History -->
+        <div class="setting-group" *ngIf="models.length > 0">
+            <h3>Trained Models History</h3>
+            <p class="subtitle">History of trained model files (.pkl).</p>
+
+            <div class="dataset-list">
+                <div *ngFor="let m of models" class="dataset-item"
+                    [style.border-left]="m.is_active ? '3px solid #00e676' : '3px solid #444'"
+                    style="display:flex; justify-content:space-between; align-items:center;">
+
+                    <div class="dataset-info" style="flex:1;">
+                        <!-- View Mode -->
+                        <ng-container *ngIf="!m.isEditing">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span class="dataset-name" style="font-weight: bold; color: #fff;">
+                                    {{ m.custom_name || m.filename }}
+                                </span>
+                                <button (click)="startModelEdit(m)"
+                                    style="background:none; border:none; cursor:pointer; font-size:12px; opacity:0.6;"
+                                    title="Rename Model">✏️</button>
+                            </div>
+                            <span style="display:block; font-size:0.75em; color:#888; margin:2px 0;">
+                                <strong>ID:</strong> {{ m.version_id || 'v1.0.0' }}
+                            </span>
+                            <span *ngIf="m.custom_name"
+                                style="display:block; font-size:0.75em; color:#666; font-family: monospace;">
+                                File: {{ m.filename }}
+                            </span>
+                            <span class="dataset-meta" style="font-size: 0.8em; color: #888;">
+                                {{ m.created_at | date:'medium' }} • {{ (m.size / 1024).toFixed(1) }} KB
+                            </span>
+                        </ng-container>
+
+                        <!-- Edit Mode -->
+                        <ng-container *ngIf="m.isEditing">
+                            <div style="display:flex; gap:5px; align-items:center; margin-bottom:5px;">
+                                <input type="text" [(ngModel)]="m.editName"
+                                    style="background:#222; border:1px solid #444; color:white; padding:5px; font-size:0.9em; flex:1; border-radius:4px;">
+                                <button (click)="saveModelRename(m)"
+                                    style="background:#4CAF50; border:none; color:white; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:0.8em;">Save</button>
+                                <button (click)="cancelModelEdit(m)"
+                                    style="background:#f44336; border:none; color:white; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:0.8em;">Cancel</button>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div class="actions" style="display:flex; gap:10px; align-items:center;">
+                        <div *ngIf="m.is_active"
+                            style="background: rgba(0, 230, 118, 0.2); color: #00e676; padding: 4px 12px; border-radius: 4px; font-size: 0.8em; border: 1px solid rgba(0, 230, 118, 0.3); font-weight:bold;">
+                            ACTIVE
+                        </div>
+                        <button *ngIf="!m.is_active" (click)="activateModel(m.filename)"
+                            style="background: #2196F3; color: white; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer; font-size: 0.8em; font-weight:bold;">
+                            ACTIVATE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="empty-state" *ngIf="models.length === 0"
+            style="padding:40px; text-align:center; color:#666; font-style:italic;">
+            No trained models found. Train a new model to see it here!
+        </div>
+    </div>

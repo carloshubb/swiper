@@ -1,0 +1,36 @@
+{
+    "START_SWIPING": {
+        "TITLE": "Preferencias de Citas",
+        "SUBTITLE": "desliza perfiles falsos",
+        "DESCRIPTION": "Tienes que deslizar al menos 20 perfiles para que podamos asegurarnos de que obtengas la cita adecuada para ti.",
+        "SELECTION_GUARANTEE": "Garantía de Selección",
+        "SELECTION_INFO": "Para obtener nuestra Garantía de Selección, debes deslizar los 5000 perfiles",
+        "START_BUTTON": "Comenzar a Deslizar",
+        "BACK_ALT": "atrás"
+    },
+    "PROFILE_CARD": {
+        "LIKE": "Me Gusta",
+        "DISLIKE": "No Me Gusta",
+        "SKIP": "Saltar",
+        "BACK": "Atrás",
+        "INFO": "Información",
+        "YEARS_OLD": "años",
+        "SCORE": "Puntuación"
+    },
+    "INFO_MODAL": {
+        "TITLE": "Información del Perfil",
+        "CLOSE": "Cerrar"
+    },
+    "SKIP_MODAL": {
+        "TITLE": "Saltar Perfil",
+        "MESSAGE": "¿Estás seguro de que quieres saltar este perfil?",
+        "CONFIRM": "Sí, Saltar",
+        "CANCEL": "Cancelar"
+    },
+    "COMMON": {
+        "LOADING": "Cargando...",
+        "ERROR": "Ocurrió un error",
+        "SUCCESS": "Éxito",
+        "RETRY": "Reintentar"
+    }
+}

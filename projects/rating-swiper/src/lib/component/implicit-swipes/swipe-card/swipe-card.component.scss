@@ -1,0 +1,31 @@
+.card-wrapper {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: var(--swipe-card-root-background, #27242c);
+  overflow: auto;
+  transition: all 0.5s ease;
+  overflow: hidden;
+
+  .inner-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 0px;
+    }
+
+    .selection {
+      position: absolute;
+      top: 30%;
+      left: 30%;
+      transform: scale(0.6) translate(-50%, -50%);
+      object-fit: contain;
+      opacity: 0.25;
+    }
+  }
+}

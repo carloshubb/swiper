@@ -1,0 +1,88 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    filter: blur(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.fade-up-stagger {
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity, transform, filter;
+}
+
+.profile-info {
+  position: absolute;
+  bottom: 24px;
+  /* Increased from 8px for better breathing room */
+  left: 12px;
+  right: 12px;
+  color: white;
+  z-index: 2;
+
+  .name {
+    font-size: 28px;
+    /* Increased size */
+    font-weight: 700;
+    /* Bolder */
+    margin: 0 0 16px 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    /* Stronger shadow */
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    /* Clean font */
+    letter-spacing: 0.5px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .tag {
+      border-radius: 20px;
+      /* Softer pill shape */
+      overflow: hidden;
+
+      &.premium-chip-glass {
+        background: rgba(255, 255, 255, 0.15);
+        /* Slightly more visible */
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        /* Brighter border */
+        padding: 6px 14px;
+        /* More padding */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        /* Subtle shadow */
+        transition: transform 0.2s;
+
+        &:hover {
+          transform: translateY(-2px);
+          background: rgba(255, 255, 255, 0.25);
+        }
+      }
+
+      &.fade-up-stagger {
+        opacity: 1;
+        visibility: visible;
+        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      .tag-content {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        /* Slightly larger text */
+        color: white;
+        font-weight: 500;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+}

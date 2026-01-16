@@ -1,0 +1,9 @@
+<div class="profile-info" *ngIf="card">
+  <h2 class="name">{{ card.name }}, {{ card.age }}</h2>
+  <div class="tags">
+    <div class="tag fade-up-stagger premium-chip-glass" *ngFor="let tag of card.tags; let i = index"
+      [ngStyle]="{ 'animation-delay': (i * 200) + 'ms' }">
+      <div class="tag-content">{{ tag }}</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+/* Action Buttons Override - Applying Implicit Swipes Style */
+::ng-deep app-action-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 550px;
+    /* Increased to fit larger buttons */
+    padding: 0 16px;
+  }
+
+  .action-btn {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    transition: transform 0.1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto !important;
+    height: auto !important;
+    border-radius: 0 !important;
+
+    &:active {
+      transform: scale(0.9);
+    }
+
+    img {
+      width: 60px !important;
+      height: 60px !important;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+      border-radius: 0 !important;
+    }
+
+    /* Ensure all specific overrides are uniform or removed */
+    &.back-btn img,
+    &.super-btn img {
+      width: 110px !important;
+      height: 110px !important;
+      opacity: 0.9;
+      transition: opacity 0.2s, transform 0.2s;
+
+      &:hover {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+
+    &.like-btn img {
+      width: 110px !important;
+      height: 110px !important;
+      filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.4));
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+
+    /* Specific overrides to kill the old gradients */
+    &.btn-heart,
+    &.btn-back {
+      background: transparent !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      width: auto !important;
+      height: auto !important;
+      border: none !important;
+    }
+  }
+}

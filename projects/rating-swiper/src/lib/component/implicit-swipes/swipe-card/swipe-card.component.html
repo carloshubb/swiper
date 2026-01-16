@@ -1,0 +1,48 @@
+<div
+  #card
+  [@cardAnimator]="animationState"
+  (@cardAnimator.done)="resetAnimationState()"
+  (swipeleft)="animationState = 'swipeleft'"
+  (swiperight)="animationState = 'swiperight'"
+  class="card-wrapper"
+>
+  @if (activeImageIndex$ | async; as rawIndex) {
+    @if (profile && rawIndex != null; as activeIndex) {
+      <div class="inner-wrapper">
+        @if (icons && swipingDecision === 1) {
+          <img [src]="icons.heart" class="selection" />
+        } @else if (swipingDecision === 0) {
+          <img [src]="icons?.dislike" class="selection" />
+        } @else if (swipingDecision === 2) {
+          <img [src]="icons?.superLike" class="selection" />
+        }
+        
+        <!-- Inner check can be simplified since 'profile' is already checked in the outer block -->
+        @if(profile && profile.images){ 
+          <img 
+            (click)="handleSwitchImage($event)" 
+            [src]="profile.images[rawIndex].image || profile.imageUrl" 
+          />
+        }
+      </div>
+    }
+  } @else {
+    <div class="inner-wrapper">
+      @if (icons && swipingDecision === 1) {
+        <img [src]="icons.heart" class="selection" />
+      } @else if (swipingDecision === 0) {
+        <img [src]="icons?.dislike" class="selection" />
+      } @else if (swipingDecision === 2) {
+        <img [src]="icons?.superLike" class="selection" />
+      }
+      
+      <!-- Inner check can be simplified since 'profile' is already checked in the outer block -->
+      @if(profile && profile.images){ 
+        <img 
+          (click)="handleSwitchImage($event)" 
+          [src]="profile.images[0].image || profile.imageUrl" 
+        />
+      }
+    </div>
+  }
+</div>

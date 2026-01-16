@@ -1,0 +1,21 @@
+<div class="buttons-container">
+  <!-- Back Button -->
+  <button class="action-btn back-btn" type="button" (click)="goToPrev()">
+    <img src="assets/icons/light/chevron-back.svg" alt="back" />
+  </button>
+
+  <!-- Left Heart (Like Left) -->
+  <button class="action-btn like-btn" type="button" (click)="likeLeft()">
+    <img src="assets/icons/unmatched-registration/love.svg" alt="like-left" />
+  </button>
+
+  <!-- Right Heart (Like Right) -->
+  <button class="action-btn like-btn" type="button" (click)="likeRight()">
+    <img src="assets/icons/unmatched-registration/love.svg" alt="like-right" />
+  </button>
+
+  <!-- Next/Skip (using reversed back icon) -->
+  <button class="action-btn super-btn" type="button" (click)="goToNext()">
+    <img class="icon-next" src="assets/icons/light/chevron-back.svg" alt="next" style="transform: scaleX(-1);" />
+  </button>
+</div>

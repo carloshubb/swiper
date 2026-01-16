@@ -1,0 +1,32 @@
+<div
+  class="score-overlay-container"
+  [ngClass]="{
+    'visible': showScore,
+    'low-score': isLowScore,
+    'high-score': isHighScore,
+    'history-mode': isHistoryMode
+  }"
+>
+  <!-- SVG Filter for threshold effect -->
+  <svg class="morph-filters">
+    <defs>
+      <filter id="threshold">
+        <feColorMatrix
+          in="SourceGraphic"
+          type="matrix"
+          values="1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 255 -140"
+        />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Morphing text layers -->
+  <div class="morph-container">
+    <span #morphText3 class="morph-text morph-text3">{{ currentScore }}</span>
+    <span #morphText1 class="morph-text morph-text1">{{ previousScore }}</span>
+    <span #morphText2 class="morph-text morph-text2">{{ currentScore }}</span>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<div class="progress">
+  <svg class="progress-circle" width="51px" height="51px" xmlns="http://www.w3.org/2000/svg">
+    <circle class="progress-circle-back" cx="25" cy="25" r="23"></circle>
+    <circle class="progress-circle-prog" [attr.stroke-dasharray]="calcProgress()" cx="25" cy="25" r="23"></circle>
+  </svg>
+  <div class="progress-text f-gilroy-regular f-w-700 f-md h-160 f-white" data-progress="0">{{ percent }}%</div>
+</div>

@@ -1,0 +1,540 @@
+@import 'swiper/swiper-bundle.css';
+
+.test-screen {
+  height: 100vh;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(191.18deg, #27242c 61.33%, #0c0b0e 101.43%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.top-heading {
+  position: absolute;
+  top: 33px;
+  /* 40px (progress bar) + 1px bar + 5px gap */
+  text-align: center;
+  width: 100%;
+  z-index: 101;
+  /* above overlays */
+  color: #ffffff;
+  font-size: 23px;
+  font-family: Calistoga, 'Gilroy-Bold', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  margin-top: 0;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.two-col {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.pane {
+  flex: 1 1 50%;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+}
+
+.swiper {
+  height: 100%;
+  width: 100%;
+}
+
+.swiper-cards {
+  overflow: hidden !important;
+}
+
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* for overlay centering */
+  width: 100%;
+  height: 100%;
+}
+
+.pair-row {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+}
+
+.pair-row .col {
+  width: 100%;
+  height: 50%;
+}
+
+.screen-center-divider {
+  position: fixed;
+  top: 0px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  z-index: 20;
+  pointer-events: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: linear-gradient(to bottom,
+      rgba(200, 200, 200, 0.25),
+      rgba(200, 200, 200, 0.35) 30%,
+      rgba(200, 200, 200, 0.25));
+  box-shadow: 0 0 18px rgba(180, 180, 180, 0.35);
+  display: none;
+}
+
+.pair-meta {
+  position: absolute;
+  bottom: 116px;
+  z-index: 30;
+  color: #fff;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.pair-meta.left {
+  left: 0;
+  width: 100%;
+  bottom: 53%;
+}
+
+.pair-meta.right {
+  left: 0;
+  right: 0;
+  width: 100%;
+  bottom: 116px;
+}
+
+
+/* Update footer to be transparent and overlay the images */
+.footer-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  /* Float slightly above bottom */
+  height: 96px;
+  z-index: 1000;
+  /* Above images */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  /* Let clicks pass through empty areas */
+  background: transparent;
+  /* No dark bar */
+
+  /* Ensure children (buttons) are clickable */
+  ::ng-deep .buttons-container,
+  ::ng-deep button,
+  ::ng-deep .action-btn {
+    pointer-events: auto !important;
+  }
+
+  /* Optional: very subtle gradient just for readability if needed, but user asked for "on picture" */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+}
+
+.footer-actions {
+  pointer-events: auto;
+  /* Re-enable clicks on buttons */
+}
+
+/* Make images taller/more immersive */
+.pair-row {
+  height: 100%;
+  /* Ensure row takes full height */
+  padding-bottom: 0;
+  /* Remove padding if any */
+}
+
+.card-image-container {
+  width: 100%;
+  height: 100%;
+  /* Fill the pane */
+  position: relative;
+  border-radius: 20px;
+  /* More rounded premium look */
+  overflow: hidden;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+  /* deeper shadow */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  /* Premium glass border */
+
+  .sub-swiper {
+    height: 100%;
+    width: 100%;
+  }
+
+  /* Prevent browser handling of gestures to ensure swiper works smoothly */
+  touch-action: pan-y;
+}
+
+/* Enhance gradient on image to support text overlay */
+.image-gradient-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  /* Taller gradient to cover text + buttons area */
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.6) 30%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+.footer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  padding: 0 16px;
+
+  .action-btn {
+    background: transparent !important;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    transition: transform 0.1s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:active {
+      transform: scale(0.9);
+    }
+
+    img {
+      width: 86px;
+      /* Matched showcase size */
+      height: 86px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+    }
+
+    &.super-like-button img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+
+/* Simple modal for duplicate heart */
+.ah-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ah-modal-content {
+  background: #28252d;
+  color: #fff;
+  border-radius: 12px;
+  padding: 16px 20px;
+  min-width: 220px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.ah-title {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.ah-ok {
+  background: #fe3c72;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+/* ========================================
+   MOBILE-FIRST RESPONSIVE DESIGN
+   ======================================== */
+
+// Mobile base styles (320px+) are already defined above
+// Progressive enhancement for larger screens using min-width only
+
+// Small mobile base is the default (320px-375px)
+// Styles are already defined in the base rules above
+
+// Medium mobile and up (376px+)
+@media screen and (min-width: 376px) {
+  .top-heading {
+    font-size: 24px;
+  }
+
+  .card-name {
+    font-size: 23px;
+  }
+
+  .card-name {
+    font-size: 23px;
+  }
+}
+
+/* Small mobile devices (iPhone SE/5, older Androids) */
+@media screen and (max-height: 667px) {
+  .top-heading {
+    font-size: 18px;
+    top: 20px;
+  }
+
+  .pair-meta.left,
+  .pair-meta.right {
+    /* Adjust slightly so text doesn't overlap on small screens */
+    transform: scale(0.9);
+  }
+
+  .footer-overlay {
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    height: 80px;
+  }
+}
+
+// Phablet and up (600px+)
+@media screen and (min-width: 600px) {
+  .top-heading {
+    font-size: 26px;
+    top: 38px;
+  }
+
+  .pair-meta {
+    bottom: 100px;
+  }
+
+
+  .footer-overlay {
+    height: 85px;
+    padding-bottom: 24px;
+
+    .footer-actions {
+      gap: 28px;
+    }
+  }
+}
+
+// Tablet and up (768px+)
+@media screen and (min-width: 768px) {
+  .test-screen {
+    max-width: 768px;
+    margin: 0 auto;
+    height: 100vh;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+  }
+
+  .top-heading {
+    font-size: 28px;
+    top: 40px;
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pair-row {
+    flex-direction: row;
+  }
+
+  .pair-row .col {
+    width: 50%;
+    height: 100%;
+  }
+
+  .screen-center-divider {
+    display: block;
+  }
+
+  /* Restore Left/Right positions */
+  .pair-meta.left {
+    width: 50%;
+    bottom: 110px;
+    left: 0;
+  }
+
+  .pair-meta.right {
+    width: 50%;
+    bottom: 110px;
+    left: auto;
+    right: 0;
+  }
+
+  .pair-meta {
+    bottom: 110px;
+    padding: 12px 14px;
+    max-width: 450px;
+    /* Constrain meta width to match image */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+  }
+
+  .card-name {
+    font-size: 24px;
+  }
+
+  .tag {
+    font-size: 14px;
+    padding: 6px 14px;
+  }
+
+  .footer-overlay {
+    height: 90px;
+    max-width: 768px;
+    /* Constrain footer width */
+    left: 50%;
+    transform: translateX(-50%);
+
+    .footer-actions {
+      gap: 32px;
+    }
+  }
+}
+
+// Desktop and up (1024px+)
+@media screen and (min-width: 1024px) {
+  .test-screen {
+    max-width: 1024px;
+  }
+
+  .top-heading {
+    font-size: 30px;
+    top: 42px;
+  }
+
+
+  .card-meta {
+    bottom: 120px;
+    padding: 14px 16px;
+    max-width: 480px;
+  }
+
+  .card-name {
+    font-size: 26px;
+  }
+
+  .footer-overlay {
+    height: 95px;
+    max-width: 1024px;
+
+    .footer-actions {
+      gap: 36px;
+    }
+  }
+}
+
+// Large desktop and up (1440px+)
+@media screen and (min-width: 1440px) {
+  .test-screen {
+    max-width: 1200px;
+  }
+
+  .top-heading {
+    font-size: 32px;
+    top: 45px;
+  }
+
+
+
+  .card-meta {
+    bottom: 130px;
+    padding: 16px 18px;
+    max-width: 520px;
+  }
+
+  .card-name {
+    font-size: 28px;
+  }
+
+  .tag {
+    font-size: 15px;
+    padding: 7px 16px;
+  }
+
+  .footer-overlay {
+    height: 100px;
+    max-width: 1200px;
+
+    .footer-actions {
+      gap: 40px;
+    }
+  }
+}
+
+// Landscape orientation adjustments for mobile devices
+@media screen and (max-height: 500px) and (orientation: landscape) {
+
+  /* Ensure landscape also respects safe area and height */
+  .test-screen {
+    height: 100dvh;
+  }
+
+  .top-heading {
+    font-size: 18px;
+    top: 20px;
+  }
+
+  .pair-meta {
+    bottom: 60px;
+    padding: 6px 8px;
+  }
+
+  .card-name {
+    font-size: 18px;
+    line-height: 140%;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .footer-overlay {
+    height: 60px;
+    padding-bottom: 12px;
+
+    .footer-actions {
+      gap: 12px;
+    }
+  }
+}

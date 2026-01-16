@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
+
+.screen {
+  background: linear-gradient(191.18deg, #27242c 61.33%, #0c0b0e 101.43%);
+  color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Calistoga', serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Top Bar */
+.top-bar {
+  display: flex;
+  position: relative;
+  padding-top: 30px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  margin-top: 10px;
+  margin-left: 20px;
+  border-radius: 100%;
+  background: linear-gradient(
+    174.9deg,
+    rgba(89, 88, 89, 0.81) -30.99%,
+    rgba(41, 37, 45, 0.81) 22.7%,
+    rgba(41, 37, 45, 0.81) 100.94%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(0.5322848558425903px);
+
+  box-shadow: 7.24px 6.58px 17.76px 1.64px #121212a6;
+
+  box-shadow: 0px 0px 2.45px 0px #0000004d;
+
+  box-shadow: 0px 2.55px 2.55px 0.82px #0000006e;
+
+  box-shadow: 0px 0px 10.65px 5.32px #4242429c;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress {
+  width: 40%;
+  height: 100%;
+  background: #fe3c72;
+  border-radius: 2px;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.swipe-icon-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.swipe-icon {
+  padding: 0px 20px;
+  max-width: 160px;
+}
+
+.swipe-icon img {
+  width: 100%;
+}
+
+.title {
+  font-family: Calistoga;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 22.99px;
+  line-height: 160%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #8d8c8f;
+  margin-bottom: 30px;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  line-height: 150%;
+  letter-spacing: -1.1%;
+  text-align: center;
+}
+
+.highlight {
+  color: #fe3c72;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.start-btn {
+  background: radial-gradient(
+        115.36% 126.16% at 8.39% 32.81%,
+        rgba(67, 64, 70, 0.5) 0%,
+        rgba(41, 37, 45, 0.5) 28.24%,
+        rgba(10, 10, 11, 0.5) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    linear-gradient(180deg, rgba(62, 64, 69, 0.5) 0%, rgba(62, 64, 69, 0) 8.33%);
+
+  color: white;
+  border: none;
+  padding: 13px 40px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: 1.62px solid;
+  text-decoration: none;
+  text-shadow: 0px 0px 4.89592px #ffffff, 0px 0px 24.4796px #fe3c72, 0px 0px 24.4796px #fe3c72;
+
+  border-image-source: linear-gradient(
+    145.84deg,
+    rgba(10, 9, 9, 0.45) 13.57%,
+    rgba(0, 0, 0, 0.488195) 13.57%,
+    #ffffff 111.02%
+  );
+}
+
+.start-btn:hover {
+  transform: scale(1.05);
+}
+/* Login */
+
+/* position: absolute;
+width: 76px;
+left: calc(50% - 76px/2 - 1.02px);
+top: 26.59%;
+bottom: 32.26%;
+
+font-family: 'Calistoga';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 160%;
+or 19px
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF; */

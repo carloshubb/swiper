@@ -1,0 +1,16 @@
+<div class="app-container__main-area" #screenshotContainer>
+    <!-- Mode Toggle (Removed per request) -->
+
+    <div class="sidebar item-list">
+        @for (sidebarItem of sidebarItems; track sidebarItem) {
+        <div class="item-list__item" [ngClass]="{ 'item-list__item-active': activeUrl === sidebarItem.route }"
+            (click)="onNavigate(sidebarItem.route)">
+            {{ sidebarItem.text }}
+        </div>
+        }
+    </div>
+    <div class="content">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>
