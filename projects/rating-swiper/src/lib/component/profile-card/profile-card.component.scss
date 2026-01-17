@@ -337,6 +337,16 @@
     transform: scale(0.9);
   }
 
+  .pair-meta-left{
+    width: 70%;
+    bottom: 53%;
+  }
+  .pair-meta-right {
+    /* Adjust slightly so text doesn't overlap on small screens */
+    width: 60%;
+    bottom: 7%;   
+  }
+
   .footer-overlay {
     bottom: calc(10px + env(safe-area-inset-bottom));
     height: 80px;
@@ -405,6 +415,7 @@
     bottom: 110px;
     left: 0;
   }
+ 
 
   .pair-meta.right {
     width: 50%;
@@ -412,6 +423,8 @@
     left: auto;
     right: 0;
   }
+
+ 
 
   .pair-meta {
     bottom: 110px;
